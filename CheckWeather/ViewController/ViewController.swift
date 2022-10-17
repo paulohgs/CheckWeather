@@ -8,10 +8,17 @@
 import UIKit
 
 class ViewController: UIViewController {
-    let homeView: HomeView = HomeView()
-
+    var weatherView: WeatherView = WeatherView()
+    let viewModel: WeatherViewModel
+    init(viewModel: WeatherViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     override func loadView() {
-        view = homeView
+        view = weatherView
     }
     override func viewDidLoad() {
         super.viewDidLoad()
