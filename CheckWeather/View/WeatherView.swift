@@ -8,22 +8,21 @@
 import UIKit
 
 class WeatherView: UIView {
-    var cityName: String?
-    lazy var cityLabel = make(UILabel()) {
-        $0.text = cityName
-        $0.font = .systemFont(ofSize: 24, weight: .medium)
+    lazy var weatherCard = make(WeatherCard()) {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
+    lazy var getButton = make(UIButton(type: .roundedRect)) {
+        $0.setTitle("Get weather", for: .normal)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.layer.cornerRadius = 5
+        $0.backgroundColor = .white
+    }
     init() {
-        cityName = "HOME"
         super.init(frame: UIScreen.main.bounds)
         buildLayout()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    func configure(with model: WeatherModel) {
-        self.cityName = model.name
     }
 }
 extension WeatherView: ViewCoding {
@@ -31,12 +30,19 @@ extension WeatherView: ViewCoding {
         backgroundColor = .systemBackground
     }
     func setupHierarchy() {
-        addSubview(cityLabel)
+        addSubview(weatherCard)
+        addSubview(getButton)
     }
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            cityLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            cityLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            // card constraints
+            weatherCard.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            weatherCard.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            weatherCard.bottomAnchor.constraint(equalTo: self.centerYAnchor, constant: -20),
+            weatherCard.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.35),
+            // button constraints
+            getButton.topAnchor.constraint(equalTo: weatherCard.bottomAnchor, constant: 20),
+            getButton.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
     }
 }
