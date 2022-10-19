@@ -7,10 +7,10 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
     var weatherView: WeatherView = WeatherView()
     let viewModel: WeatherViewModel
-    init(viewModel: WeatherViewModel) {
+    init(viewModel: WeatherViewModel = WeatherViewModel()) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -23,5 +23,12 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        viewModel.getCitiesByName()
+        viewModel.weatherInfos.bind { [weak self] _ in
+            guard let value = self?.viewModel.weatherInfos.value else { return }
+            DispatchQueue.main.async {
+                self?.weatherView.weatherCard.configureViewCard(with: value)
+            }
+        }
     }
 }

@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
-        let viewController = ViewController(viewModel: WeatherViewModel())
+        let viewController = ViewController()
         let navigation = UINavigationController(rootViewController: viewController)
         window.rootViewController = navigation
         self.window = window

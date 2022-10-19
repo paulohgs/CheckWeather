@@ -11,6 +11,7 @@ class WeatherView: UIView {
     lazy var weatherCard = make(WeatherCard()) {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
+    // MARK: duvida para ser tirada com mentor sobre o configuration
     lazy var getButton = make(UIButton(type: .roundedRect)) {
         $0.setTitle("Get weather", for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -27,7 +28,7 @@ class WeatherView: UIView {
 }
 extension WeatherView: ViewCoding {
     func setupView() {
-        backgroundColor = .systemBackground
+        // setup view
     }
     func setupHierarchy() {
         addSubview(weatherCard)
@@ -36,12 +37,8 @@ extension WeatherView: ViewCoding {
     func setupConstraints() {
         NSLayoutConstraint.activate([
             // card constraints
-            weatherCard.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            weatherCard.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            weatherCard.bottomAnchor.constraint(equalTo: self.centerYAnchor, constant: -20),
-            weatherCard.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.35),
             // button constraints
-            getButton.topAnchor.constraint(equalTo: weatherCard.bottomAnchor, constant: 20),
+            getButton.topAnchor.constraint(equalTo: self.centerYAnchor),
             getButton.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
     }

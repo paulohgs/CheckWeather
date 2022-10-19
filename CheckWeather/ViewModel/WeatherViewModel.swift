@@ -6,11 +6,11 @@
 //
 
 class WeatherViewModel {
-    var weatherInfos: WeatherModel?
+    var weatherInfos: Observable<WeatherModel> = Observable(WeatherModel.weatherMainModel)
     let apiManager = APIManager(apiKey: "a7de71e44e183c1599278ddeb26caebe")
-    init() {
+    func getCitiesByName() {
         let query = [
-            "q": ["Fortaleza", "BR-CE", "BRA"].joined(separator: ","),
+            "q": ["Crato", "BR-CE", "BRA"].joined(separator: ","),
             "appid": apiManager.apiKey,
             "units": "metric",
             "lang": "pt_br"
@@ -18,7 +18,7 @@ class WeatherViewModel {
         apiManager.fetchAPI(url: Router(path: "data/2.5/weather", params: query).url) { result in
             switch result {
             case .success(let data):
-                self.weatherInfos = data
+                self.weatherInfos.value = data
             case .failure(let error):
                 if error == .requestError {
                     print("requisiçao invalida")
