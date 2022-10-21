@@ -64,7 +64,14 @@ struct Main: Decodable {
         case tempMax = "temp_max"
         case pressure, humidity
     }
-    public static var mainModel: Main = Main(temp: 0.0, feelsLike: 0.0, tempMin: 0.0, tempMax: 0.0, pressure: 0, humidity: 0)
+    public static var mainModel: Main = Main(
+        temp: 0.0,
+        feelsLike: 0.0,
+        tempMin: 0.0,
+        tempMax: 0.0,
+        pressure: 0,
+        humidity: 0
+    )
 }
 
 // MARK: - Sys

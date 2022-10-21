@@ -28,4 +28,10 @@ extension Router {
         }
         return url
     }
+    var urlRequest: URLRequest {
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/JSON", forHTTPHeaderField: "Content-Type")
+        return request
+    }
 }
