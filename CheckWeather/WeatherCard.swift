@@ -14,7 +14,7 @@ class WeatherCard: UIView {
     private lazy var cityLabel = make(UILabel()) {
         $0.text = cityName
         $0.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        $0.numberOfLines = 1
+        $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     private lazy var conditionLabel = make(UILabel()) {

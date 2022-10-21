@@ -10,36 +10,20 @@ import Foundation
     Responsabilidades da classe:
         - Realize the request and return the decoded data;
  */
-// - Realize the request and return the decoded data;
+
 class APIManager {
-    // Get API Key from a .env or Xcode Configuration File. This key is set on init moment.
-    let apiKey: String
+    // URLSession that will be injected
+    private let session: NetworkSession
     // MARK: - INIT
     // Initializer getting the api key in construct moment and setting the urlComponents
-    init(apiKey: String) {
-        self.apiKey = apiKey
+    init(session: NetworkSession = URLSession.shared) {
+        self.session = session
     }
     // MARK: - FetchAPI()
     // consult the weather info by city, state and country
-    func fetchAPI(url: URL, completion: @escaping(Result<WeatherModel, NetworkErrorsHandler>) -> Void) {
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "GET"
-        urlRequest.addValue("application/JSON", forHTTPHeaderField: "Content-Type")
-        URLSession.shared.dataTask(with: urlRequest) { data, _, error in
-            guard data != nil else {
-                completion(.failure(NetworkErrorsHandler.invalidData))
-                return
-            }
-            do {
-                let decoder = JSONDecoder()
-                let decodedData = try decoder.decode(WeatherModel.self, from: data!)
-                DispatchQueue.main.async {
-                    completion(.success(decodedData))
-                }
-            } catch {
-                print(error)
-                completion(.failure(NetworkErrorsHandler.requestError))
-            }
-        }.resume()
+    func fetchAPI(urlRequest: URLRequest, completion: @escaping(Result<WeatherModel, NetworkErrorsHandler>) -> Void) {
+        session.fetchAPI(urlRequest: urlRequest) { result in
+            completion(result)
+        }
     }
 }

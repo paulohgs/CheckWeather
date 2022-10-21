@@ -10,7 +10,7 @@ import UIKit
 final class ViewController: UIViewController {
     var weatherView: WeatherView = WeatherView()
     let viewModel: WeatherViewModel
-    init(viewModel: WeatherViewModel = WeatherViewModel()) {
+    init(viewModel: WeatherViewModel = WeatherViewModel(session: URLSession.shared)) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

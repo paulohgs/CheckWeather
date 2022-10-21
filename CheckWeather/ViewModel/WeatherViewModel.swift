@@ -4,18 +4,26 @@
 //
 //  Created by Paulo Henrique Gomes da Silva on 13/10/22.
 //
+import Foundation
 
 class WeatherViewModel {
     var weatherInfos: Observable<WeatherModel> = Observable(WeatherModel.weatherMainModel)
-    let apiManager = APIManager(apiKey: "a7de71e44e183c1599278ddeb26caebe")
+    var session: URLSession!
+    let apiManager: APIManager
+    let apiKey: String
+    init(session: URLSession = .shared) {
+        self.session = session
+        self.apiKey = Bundle.main.object(forInfoDictionaryKey: "API_KEY") as? String ?? "Invalid apiKey"
+        self.apiManager = APIManager(session: session)
+    }
     func getCitiesByName() {
         let query = [
             "q": ["Crato", "BR-CE", "BRA"].joined(separator: ","),
-            "appid": apiManager.apiKey,
+            "appid": apiKey,
             "units": "metric",
             "lang": "pt_br"
         ]
-        apiManager.fetchAPI(url: Router(path: "data/2.5/weather", params: query).url) { result in
+        apiManager.fetchAPI(urlRequest: Router(path: "data/2.5/weather", params: query).urlRequest) { result in
             switch result {
             case .success(let data):
                 self.weatherInfos.value = data
