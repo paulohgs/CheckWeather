@@ -12,7 +12,8 @@ class WeatherView: UIView {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     // MARK: duvida para ser tirada com mentor sobre o configuration
-    lazy var getButton = make(UIButton(type: .roundedRect)) {
+    lazy var getButton = make(UIButton()) {
+        $0.configuration = .bordered()
         $0.setTitle("Get weather", for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.layer.cornerRadius = 5
