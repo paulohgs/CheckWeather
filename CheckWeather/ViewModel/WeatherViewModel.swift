@@ -11,19 +11,23 @@ class WeatherViewModel {
     var session: URLSession!
     let apiManager: APIManager
     let apiKey: String
+
     init(session: URLSession = .shared) {
         self.session = session
         self.apiKey = Bundle.main.object(forInfoDictionaryKey: "API_KEY") as? String ?? "Invalid apiKey"
         self.apiManager = APIManager(session: session)
     }
+
     func getCitiesByName() {
         let query = [
-            "q": ["Crato", "BR-CE", "BRA"].joined(separator: ","),
+            "q": ["Fortaleza", "BR-CE", "BRA"].joined(separator: ","),
             "appid": apiKey,
             "units": "metric",
             "lang": "pt_br"
         ]
+
         apiManager.fetchAPI(urlRequest: Router(path: "data/2.5/weather", params: query).urlRequest) { result in
+            print(Router(path: "data/2.5/weather", params: query).urlRequest)
             switch result {
             case .success(let data):
                 self.weatherInfos.value = data
