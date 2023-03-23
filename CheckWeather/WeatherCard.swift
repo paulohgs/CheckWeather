@@ -8,27 +8,23 @@
 import UIKit
 
 class WeatherCard: UIView {
-    var cityName: String
-    var condition: String
-    var actualTemp, feelsLike, tempMin, tempMax, windSpeed, humidity: Double
     private lazy var cityLabel = make(UILabel()) {
-        $0.text = cityName
+        $0.text = ""
+        $0.textAlignment = .natural
         $0.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     private lazy var conditionLabel = make(UILabel()) {
-        $0.text = condition
+        $0.text = ""
+        $0.textAlignment = .natural
         $0.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         $0.numberOfLines = 0
     }
     private lazy var tempNumbers = make(UILabel()) {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = """
-        Acutal temp: \(actualTemp) Feelslike: \(feelsLike)
-        Temp. max: \(tempMax) Temp. min: \(tempMin)
-        Wind Speed: \(windSpeed) Humidity: \(humidity)
-        """
+        $0.text = ""
+        $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         $0.numberOfLines = 0
     }
@@ -41,21 +37,13 @@ class WeatherCard: UIView {
         $0.axis = .vertical
         $0.spacing = 10
         $0.alignment = .fill
-        $0.distribution = .fill
+        $0.distribution = .fillProportionally
         $0.isLayoutMarginsRelativeArrangement = true
         $0.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15)
         $0.layer.cornerRadius = 10
         $0.backgroundColor = .systemGray2
     }
     init() {
-        cityName = ""
-        condition = ""
-        actualTemp = 0.0
-        feelsLike = 0.0
-        tempMin = 0.0
-        tempMax = 0.0
-        windSpeed = 0.0
-        humidity = 0.0
         super.init(frame: UIScreen.main.bounds)
         buildLayout()
     }
@@ -65,6 +53,11 @@ class WeatherCard: UIView {
     func configureViewCard(with model: WeatherModel) {
         cityLabel.text = model.name
         conditionLabel.text = model.weather[0].weatherDescription
+        tempNumbers.text = """
+        Acutal temp: \(model.main.temp) Feelslike: \(model.main.feelsLike)
+        Temp. max: \(model.main.tempMax) Temp. min: \(model.main.tempMin)
+        Wind Speed: \(model.wind.speed) Humidity: \(model.main.humidity)
+        """
     }
 }
 
@@ -76,9 +69,8 @@ extension WeatherCard: ViewCoding {
     func setupConstraints() {
         // setup constraints
         NSLayoutConstraint.activate([
-            stack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            stack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            stack.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor)
+            stack.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            stack.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
     }
     func setupHierarchy() {

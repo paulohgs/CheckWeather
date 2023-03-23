@@ -30,6 +30,7 @@ class WeatherView: UIView {
 extension WeatherView: ViewCoding {
     func setupView() {
         // setup view
+        backgroundColor = .systemBackground
     }
     func setupHierarchy() {
         addSubview(weatherCard)
@@ -37,9 +38,11 @@ extension WeatherView: ViewCoding {
     }
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            // card constraints
-            // button constraints
-            getButton.topAnchor.constraint(equalTo: self.centerYAnchor),
+            weatherCard.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            weatherCard.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+            weatherCard.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+            weatherCard.bottomAnchor.constraint(equalTo: self.centerYAnchor, constant: -50),
+            getButton.topAnchor.constraint(equalTo: weatherCard.bottomAnchor, constant: 20),
             getButton.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
     }
